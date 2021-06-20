@@ -2,13 +2,13 @@ package handler
 
 import (
 	"fmt"
+	"gee/context"
 	"log"
-	"net/http"
 )
 
 // IndexHandler handler echoes r.URL.Path
-func IndexHandler(writer http.ResponseWriter, request *http.Request){
-	_, err := fmt.Fprintf(writer, "URL.Path = %q\n", request.URL.Path)
+func IndexHandler(c *context.Context) {
+	_, err := fmt.Fprintf(c.Writer, "URL.Path = %q\n", c.Path)
 	if err != nil {
 		log.Panic(err)
 		return
@@ -16,9 +16,9 @@ func IndexHandler(writer http.ResponseWriter, request *http.Request){
 }
 
 // HelloHandler handler echoes r.URL.Header
-func HelloHandler(writer http.ResponseWriter, request *http.Request){
-	for k, v := range request.Header {
-		_, err := fmt.Fprintf(writer, "Header[%q] = %q\n", k, v)
+func HelloHandler(c *context.Context) {
+	for k, v := range c.Req.Header {
+		_, err := fmt.Fprintf(c.Writer, "Header[%q] = %q\n", k, v)
 		if err != nil {
 			log.Panic(err)
 			return
