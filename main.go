@@ -1,13 +1,30 @@
 package main
 
 import (
+	"gee/context"
 	"gee/engine"
-	"gee/handler"
+	"net/http"
 )
 
 func main() {
-	gee := engine.New()
-	gee.AddRouter("GET", "/", handler.IndexHandler)
-	gee.AddRouter("GET", "/hello", handler.HelloHandler)
-	gee.Run()
+	r := engine.New()
+	r.GET("/", func(c *context.Context) {
+		c.HTML(http.StatusOK, "<h1>Hello Gee</h1>")
+	})
+
+	r.GET("/hello", func(c *context.Context) {
+		// expect /hello?name=geektutu
+		c.String(http.StatusOK, "hello %s, you're at %s\n", c.Query("name"), c.Path)
+	})
+
+	r.GET("/hello/:name", func(c *context.Context) {
+		// expect /hello/geektutu
+		c.String(http.StatusOK, "hello %s, you're at %s\n", c.Param("name"), c.Path)
+	})
+
+	r.GET("/assets/*filepath", func(c *context.Context) {
+		c.JSON(http.StatusOK, context.H{"filepath": c.Param("filepath")})
+	})
+
+	r.Run(":9999")
 }

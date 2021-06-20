@@ -21,10 +21,18 @@ func New() (engine *Engine) {
 	return &Engine{Router: router.New()}
 }
 
-func (engine *Engine) AddRouter(method string, pattern string, handler router.HandlerFunc) {
+func (engine *Engine) addRouter(method string, pattern string, handler router.HandlerFunc) {
 	engine.Router.AddRouter(method, pattern, handler)
 }
 
-func (engine *Engine) Run() {
-	log.Fatal(http.ListenAndServe(":9999", engine))
+func (engine *Engine) Run(addr string) {
+	log.Fatal(http.ListenAndServe(addr, engine))
+}
+
+func (engine *Engine) GET(pattern string, handler router.HandlerFunc) {
+	engine.addRouter("GET", pattern, handler)
+}
+
+func (engine *Engine) POST(pattern string, handler router.HandlerFunc) {
+	engine.addRouter("POST", pattern, handler)
 }
