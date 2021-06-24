@@ -13,10 +13,10 @@ type Engine struct {
 }
 
 func NewEngine() (engine *Engine) {
-	engine2 := &Engine{router: newRouter()}
-	engine2.RouterGroup = &RouterGroup{engine: engine2}
-	engine2.groups = []*RouterGroup{engine2.RouterGroup}
-	return engine2
+	engine = &Engine{router: newRouter()}
+	engine.RouterGroup = &RouterGroup{engine: engine}
+	engine.groups = []*RouterGroup{engine.RouterGroup}
+	return engine
 }
 
 func (engine *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
