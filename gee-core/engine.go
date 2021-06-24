@@ -12,8 +12,8 @@ type Engine struct {
 	groups []*RouterGroup // store all groups
 }
 
-func NewEngine() (engine *Engine) {
-	engine = &Engine{router: newRouter()}
+func NewEngine() *Engine {
+	engine := &Engine{router: newRouter()}
 	engine.RouterGroup = &RouterGroup{engine: engine}
 	engine.groups = []*RouterGroup{engine.RouterGroup}
 	return engine
