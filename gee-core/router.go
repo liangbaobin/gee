@@ -1,20 +1,19 @@
-package router
+package gee
 
 import (
-	"gee/context"
 	"log"
 	"net/http"
 	"strings"
 )
 
-type HandlerFunc func(c *context.Context)
+type HandlerFunc func(c *Context)
 
 type Router struct {
 	roots    map[string]*Node
 	Handlers map[string]HandlerFunc
 }
 
-func New() (router *Router) {
+func newRouter() (router *Router) {
 	return &Router{
 		roots:    make(map[string]*Node),
 		Handlers: make(map[string]HandlerFunc),
@@ -37,7 +36,7 @@ func parsePattern(pattern string) []string {
 	return parts
 }
 
-func (r *Router) AddRouter(method string, pattern string, handler HandlerFunc) {
+func (r *Router) addRouter(method string, pattern string, handler HandlerFunc) {
 	log.Printf("Route %4s - %s", method, pattern)
 	parts := parsePattern(pattern)
 	key := method + "-" + pattern
@@ -77,7 +76,7 @@ func (r *Router) getRoute(method string, path string) (*Node, map[string]string)
 	return nil, nil
 }
 
-func (r *Router) Handle(c *context.Context) {
+func (r *Router) Handle(c *Context) {
 	n, params := r.getRoute(c.Method, c.Path)
 	if n != nil {
 		c.Params = params

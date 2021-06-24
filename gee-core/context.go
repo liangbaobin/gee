@@ -1,4 +1,4 @@
-package context
+package gee
 
 import (
 	"encoding/json"
@@ -22,7 +22,7 @@ type Context struct {
 	StatusCode int
 }
 
-func NewContext(writer http.ResponseWriter, req *http.Request) *Context {
+func newContext(writer http.ResponseWriter, req *http.Request) *Context {
 	return &Context{
 		Writer: writer,
 		Req:    req,
