@@ -20,6 +20,10 @@ func (group *RouterGroup) Group(prefix string) *RouterGroup {
 	return newGroup
 }
 
+func (group *RouterGroup) Use(middleware ...HandlerFunc) {
+	group.middlewares = append(group.middlewares, middleware...)
+}
+
 func (group *RouterGroup) addRouter(method string, comp string, handler HandlerFunc) {
 	pattern := group.prefix + comp
 	log.Println(group.prefix)

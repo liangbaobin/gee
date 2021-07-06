@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	r := gee.NewEngine()
+	r := gee.Default()
 	v1 := r.Group("/v1")
 	{
 		v1.GET("/", func(c *gee.Context) {
@@ -30,7 +30,6 @@ func main() {
 				"password": c.PostForm("password"),
 			})
 		})
-
 	}
 
 	r.Run(":9999")
